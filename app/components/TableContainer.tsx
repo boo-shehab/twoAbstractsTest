@@ -52,7 +52,7 @@ const TableContainer = ({
         params.sortDirection = sortDirection.sortDirection;
       }
 
-      const response = await axios.get(`http://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`, {
+      const response = await axios.get(`http://209.127.228.55:8080/api/carcontracts/v1${apiUrl}`, {
         params,
         headers: {
           'Content-Type': 'application/json',
