@@ -52,9 +52,8 @@ const TableContainer = ({
         params.sortDirection = sortDirection.sortDirection;
       }
 
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8082/api/carcontracts/v1';
       
-      const response = await axios.get(`${baseUrl}${apiUrl}`, {
+      const response = await axios.get(`http://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`, {
         params,
         headers: {
           'Content-Type': 'application/json',
