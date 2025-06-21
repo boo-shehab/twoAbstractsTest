@@ -53,7 +53,7 @@ const TableContainer = ({
       }
 
       const response = await axios.get(
-        `https://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`,
+        `http://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`,
         {
           params,
           headers: {
