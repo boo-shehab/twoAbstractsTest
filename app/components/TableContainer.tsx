@@ -2,14 +2,14 @@
 "use client";
 
 // TableContainer.tsx
-import { useCallback, useEffect, useState } from 'react';
-import Table from './Table';
-import { CiSearch } from 'react-icons/ci';
-import InputField from './Form/InputField';
-import RenderFilterField from './Form/RenderFilterField';
-import { TableContainerProps } from '../types';
-import { IoClose } from 'react-icons/io5';
-import axios from 'axios';
+import { useCallback, useEffect, useState } from "react";
+import Table from "./Table";
+import { CiSearch } from "react-icons/ci";
+import InputField from "./Form/InputField";
+import RenderFilterField from "./Form/RenderFilterField";
+import { TableContainerProps } from "../types";
+import { IoClose } from "react-icons/io5";
+import axios from "axios";
 
 const TableContainer = ({
   columns,
@@ -22,11 +22,11 @@ const TableContainer = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [sortDirection, setSortDirection] = useState<any>({
-    sortBy: '',
-    sortDirection: 'asc',
+    sortBy: "",
+    sortDirection: "asc",
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [lastPage, setLastPage] = useState(1);
@@ -52,36 +52,48 @@ const TableContainer = ({
         params.sortDirection = sortDirection.sortDirection;
       }
 
-      
-      const response = await axios.get(`http://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`, {
-        params,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyNSIsImlhdCI6MTc0OTg5ODg0MiwiZXhwIjoxNzUyNDkwODQyfQ.kdp0feNm2oml9x0erdlhLAZh9mAqjRQrFvH3fWbRD5ZXJR3SruJ1UPzejWsyj_kZ8vUGLBvBU-tVX4Aq-r9hIg`,
-        },
-      });
+      const response = await axios.get(
+        `https://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`,
+        {
+          params,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyNSIsImlhdCI6MTc0OTg5ODg0MiwiZXhwIjoxNzUyNDkwODQyfQ.kdp0feNm2oml9x0erdlhLAZh9mAqjRQrFvH3fWbRD5ZXJR3SruJ1UPzejWsyj_kZ8vUGLBvBU-tVX4Aq-r9hIg`,
+          },
+        }
+      );
 
       setData(response.data.data);
       setLastPage(response.data.pagination.lastPage);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       if (axios.isAxiosError(error)) {
-        if (error.code === 'ERR_NETWORK') {
-          setError('Unable to connect to the server. Please check your network connection or contact support.');
+        if (error.code === "ERR_NETWORK") {
+          setError(
+            "Unable to connect to the server. Please check your network connection or contact support."
+          );
         } else if (error.response?.status === 401) {
-          setError('Authentication failed. Please log in again.');
+          setError("Authentication failed. Please log in again.");
         } else if ((error.response?.status ?? 0) >= 500) {
-          setError('Server error. Please try again later.');
+          setError("Server error. Please try again later.");
         } else {
           setError(`Error: ${error.response?.data?.message || error.message}`);
         }
       } else {
-        setError('An unexpected error occurred. Please try again.');
+        setError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setLoading(false);
     }
-  }, [apiUrl, filters, searchTerm, sortDirection, rowsPerPage, currentPage, columns.length]);
+  }, [
+    apiUrl,
+    filters,
+    searchTerm,
+    sortDirection,
+    rowsPerPage,
+    currentPage,
+    columns.length,
+  ]);
 
   // Only reset page to 0 when search/filter/sort changes (not page itself)
   useEffect(() => {
@@ -95,7 +107,7 @@ const TableContainer = ({
   const handleFilterChange = (name: string, value: any) => {
     setFilters((prev) => {
       const updated = { ...prev };
-      if (value === null || value === '') {
+      if (value === null || value === "") {
         delete updated[name];
       } else {
         updated[name] = value;
@@ -107,7 +119,9 @@ const TableContainer = ({
   const onSort = (columnKey: string) => {
     setSortDirection((prev: any) => {
       const newDirection =
-        prev.sortBy === columnKey && prev.sortDirection === 'asc' ? 'desc' : 'asc';
+        prev.sortBy === columnKey && prev.sortDirection === "asc"
+          ? "desc"
+          : "asc";
       return { sortBy: columnKey, sortDirection: newDirection };
     });
   };
@@ -136,7 +150,9 @@ const TableContainer = ({
         </select>
         {isThereFilters && (
           <button
-            className={`text-primary-500 rounded-2xl py-2 px-4 border border-primary-500 text-xl font-normal w-full md:w-auto ${showFilters ? 'bg-primary-500 text-white' : ''}`}
+            className={`text-primary-500 rounded-2xl py-2 px-4 border border-primary-500 text-xl font-normal w-full md:w-auto ${
+              showFilters ? "bg-primary-500 text-white" : ""
+            }`}
             onClick={toggleFilters}
           >
             + اضافة فلتر
@@ -151,8 +167,8 @@ const TableContainer = ({
         <div
           className={`transition-all duration-500 ease-in-out overflow-hidden ${
             showFilters
-              ? 'w-full md:w-[450px] h-auto opacity-100 translate-x-0'
-              : 'w-0 h-0 opacity-0 translate-x-full'
+              ? "w-full md:w-[450px] h-auto opacity-100 translate-x-0"
+              : "w-0 h-0 opacity-0 translate-x-full"
           }`}
         >
           <div className="flex flex-col w-full border-none mb-4 bg-white rounded-2xl p-2 shadow-[1px_2px_16px_0px_#4899EA1F]">
@@ -182,10 +198,16 @@ const TableContainer = ({
         {/* Table */}
         <div
           className={`flex-1 transition-all duration-500 ease-in-out ${
-            showFilters ? 'w-full md:w-[calc(100%-350px)]' : 'w-full'
+            showFilters ? "w-full md:w-[calc(100%-350px)]" : "w-full"
           }`}
         >
-          <Table columns={columns} data={data} loading={loading} error={error} onSort={onSort} />
+          <Table
+            columns={columns}
+            data={data}
+            loading={loading}
+            error={error}
+            onSort={onSort}
+          />
 
           {/* Pagination buttons */}
           <div className="flex items-center mt-6 gap-2">
@@ -195,12 +217,15 @@ const TableContainer = ({
               disabled={currentPage === 0}
               className="w-[35px] h-[35px] bg-primary-500 text-white rounded-full disabled:opacity-50"
             >
-              {'<'}
+              {"<"}
             </button>
 
             {/* Page Numbers */}
             {Array.from({ length: 5 }, (_, i) => {
-              const startPage = Math.max(0, Math.min(currentPage - 2, lastPage - 5));
+              const startPage = Math.max(
+                0,
+                Math.min(currentPage - 2, lastPage - 5)
+              );
               const page = startPage + i;
 
               if (page >= lastPage) return null;
@@ -211,8 +236,8 @@ const TableContainer = ({
                   onClick={() => setCurrentPage(page)}
                   className={`w-[35px] h-[35px] rounded-full ${
                     page === currentPage
-                      ? 'bg-primary-500 text-white font-bold'
-                      : 'border-1 border-neutral-400 text-neutral-500 hover:bg-gray-300'
+                      ? "bg-primary-500 text-white font-bold"
+                      : "border-1 border-neutral-400 text-neutral-500 hover:bg-gray-300"
                   }`}
                 >
                   {page + 1}
@@ -222,11 +247,13 @@ const TableContainer = ({
 
             {/* Next */}
             <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, lastPage - 1))}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, lastPage - 1))
+              }
               disabled={currentPage >= lastPage - 1}
               className="w-[35px] h-[35px] bg-primary-500 text-white rounded-full disabled:opacity-50"
             >
-              {'>'}
+              {">"}
             </button>
           </div>
         </div>
