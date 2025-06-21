@@ -52,7 +52,9 @@ const TableContainer = ({
         params.sortDirection = sortDirection.sortDirection;
       }
 
-      const response = await axios.get(`http://209.127.228.55:8082/api/carcontracts/v1${apiUrl}`, {
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8082/api/carcontracts/v1';
+      
+      const response = await axios.get(`${baseUrl}${apiUrl}`, {
         params,
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +66,19 @@ const TableContainer = ({
       setLastPage(response.data.pagination.lastPage);
     } catch (error) {
       console.error('Error fetching data:', error);
-      setError('Error fetching data');
+      if (axios.isAxiosError(error)) {
+        if (error.code === 'ERR_NETWORK') {
+          setError('Unable to connect to the server. Please check your network connection or contact support.');
+        } else if (error.response?.status === 401) {
+          setError('Authentication failed. Please log in again.');
+        } else if (error.response?.status >= 500) {
+          setError('Server error. Please try again later.');
+        } else {
+          setError(`Error: ${error.response?.data?.message || error.message}`);
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
