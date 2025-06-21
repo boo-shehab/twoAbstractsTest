@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import axios from "axios";
-import { useState, useEffect } from "react";
 import { TableColumn } from "./types";
 import TableContainer from "./components/TableContainer";
 

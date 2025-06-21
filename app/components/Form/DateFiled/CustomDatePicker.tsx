@@ -1,6 +1,5 @@
 "use client";
 
-import { CiCalendarDate } from "react-icons/ci";
 import "./CustomDatePicker.css";
 
 import { CustomDatePickerProps } from "../types";
@@ -16,7 +15,7 @@ function CustomDatePicker({
   error,
 }: CustomDatePickerProps) {
   // Helper to safely get a date string in "YYYY-MM-DD" format
-  const getDateString = (val: string | Date | undefined) => {
+  const getDateString = (val: string | Date | null | undefined) => {
     if (!val) return "";
     if (typeof val === "string") {
       return val.length >= 10 ? val.substring(0, 10) : "";

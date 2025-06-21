@@ -71,7 +71,7 @@ const TableContainer = ({
           setError('Unable to connect to the server. Please check your network connection or contact support.');
         } else if (error.response?.status === 401) {
           setError('Authentication failed. Please log in again.');
-        } else if (error.response?.status >= 500) {
+        } else if ((error.response?.status ?? 0) >= 500) {
           setError('Server error. Please try again later.');
         } else {
           setError(`Error: ${error.response?.data?.message || error.message}`);
