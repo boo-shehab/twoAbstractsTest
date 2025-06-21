@@ -56,7 +56,7 @@ const TableContainer = ({
         params,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyNSIsImlhdCI6MTc0OTg5ODg0MiwiZXhwIjoxNzUyNDkwODQyfQ.kdp0feNm2oml9x0erdlhLAZh9mAqjRQrFvH3fWbRD5ZXJR3SruJ1UPzejWsyj_kZ8vUGLBvBU-tVX4Aq-r9hIg`,
         },
       });
 
